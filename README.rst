@@ -3,5 +3,5 @@ Godity Engine Framework
 
 About Framework
 ============
-  blabla
+  blabla\n
   blblalvla
