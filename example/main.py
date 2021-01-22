@@ -1,6 +1,6 @@
 from godity.engine import *
 
-# componentes customizados
+# custom components
 from rotate import RotateComponent
 from clickPlayAudio import ClickPlayAudio
 
