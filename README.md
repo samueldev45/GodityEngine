@@ -10,4 +10,6 @@
 
 Godity Engine is a **open-source** framework based on pygame, it is being developed for the easy work of game developers who use pygame to create 2D games.
 
-## Features
+## Release 0.0.1
+
+1. ECS (Entity Component System) implemented
