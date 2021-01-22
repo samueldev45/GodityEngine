@@ -2,8 +2,10 @@
 
 <p align="center">
   <a href="pass">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png" width="400" alt="Godity Engine Logo">
+    <img src="pass" width="400" alt="Godity Engine Logo">
   </a>
 </p>
 
 ## About Framework
+
+Godity Engine is a framework based on pygame, it is being developed for the easy work of game developers who use pygame to create 2D games.
