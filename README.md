@@ -8,8 +8,6 @@
 
 ## About Framework
 
-Godity Engine é um framework de código aberto baseado em pygame, que está sendo desenvolvido para o fácil trabalho de desenvolvedores de jogos que usam o pygame para criar jogos 2D.
+Godity Engine is a **open-source** framework based on pygame, it is being developed for the easy work of game developers who use pygame to create 2D games.
 
 ## Features
-
-** testee
