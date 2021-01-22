@@ -1,6 +1,7 @@
-# GodityEngine
+Godity Engine Framework
+============
 
-About Engine
-=
+About Framework
+============
   blabla
   blblalvla
