@@ -98,7 +98,7 @@ class Scene():
                 if self.__camera != None:
                     rect = self.__camera.get("Camera").apply(rect)
 
-                pygame.draw.rect(surface, (255,255,255), rect, width=1)
+                pygame.draw.rect(surface, (255,255,255), rect, 1)
         self.__rendering = False
 
     def update(self):
