@@ -29,7 +29,7 @@ Godity Engine is a **open-source** framework based on pygame, it is being develo
 
 ## Installation
 
-pip install godity
+ - pip install godity
 
 ## API
 
