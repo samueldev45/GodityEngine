@@ -12,7 +12,16 @@ Godity Engine is a **open-source** framework based on pygame, it is being develo
 
 ## Release 0.2
 
-1. ECS (Entity Component System) implemented.
+1. New functions in Scene class
+2. New functions in Entity class
+3. New functions in App class
+4. New function in Transform component
+5. Physics implemented
+6. The scene class has a new parameter for drawing physics (render_physics=False)
+7. New components:
+ - Camera
+ - Box Collider
+ - Rigidbody
 
 ## Dependencies
 
