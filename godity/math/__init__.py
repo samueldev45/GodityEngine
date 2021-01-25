@@ -1,1 +1,0 @@
-from godity.math.Vector2 import *
