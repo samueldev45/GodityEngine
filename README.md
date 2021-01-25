@@ -27,6 +27,10 @@ Godity Engine is a **open-source** framework based on pygame, it is being develo
 
 1. pygame
 
+## Installation
+
+pip install godity
+
 ## API
 
 https://samueldev45.github.io/godity/docs/
