@@ -8,7 +8,7 @@ class Window():
         self.flags = flags
 
         # create display and set title
-        self.__display = pygame.display.set_mode((self.width, self.height), flags=flags)
+        self.__display = pygame.display.set_mode((self.width, self.height), flags)
         pygame.display.set_caption(self.title)
 
     def getDisplay(self):
