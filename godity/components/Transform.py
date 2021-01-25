@@ -36,12 +36,15 @@ class Transform(Component):
 
     def setPosition(self, vector2):
         self.position = vector2
+        self.updateChildrenPosition()
 
     def setPositionX(self, value):
         self.position.x = value
+        self.updateChildrenPosition()
 
     def setPositionY(self, value):
         self.position.y = value
+        self.updateChildrenPosition()
 
     def setRotation(self, angle):
         self.rotation = angle
