@@ -19,9 +19,9 @@ Godity Engine is a **open-source** framework based on pygame, it is being develo
  - Physics implemented
  - The scene class has a new parameter for drawing physics (render_physics=False)
  - New components:
- - Camera
- - Box Collider
- - Rigidbody
+     - Camera
+     - Box Collider
+     - Rigidbody
 
 ## Dependencies
 
