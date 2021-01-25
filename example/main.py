@@ -40,11 +40,14 @@ class Game(App):
 
         self.camera.parent(self.player)
 
+        # adding entities in game scene
         self.gameScene.add(self.platform)
         self.gameScene.add(self.player)
         self.gameScene.add(self.cube)
         self.gameScene.add(self.camera)
+        #---
 
+        # setting camera to game scene and set scene in app
         self.gameScene.setCamera(self.camera)
         self.setScene(self.gameScene)
 
