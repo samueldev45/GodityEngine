@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="pass">
-    <img src="https://i.imgur.com/JxEqvGg.png" width="400" alt="Godity Engine Logo">
+    <img src="https://i.imgur.com/SDJK5fc.png" width="400" alt="Godity Engine Logo">
   </a>
 </p>
 
