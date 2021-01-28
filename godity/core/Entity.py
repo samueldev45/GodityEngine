@@ -57,6 +57,10 @@ class Entity():
     def getScene(self):
         return self.scene
 
+    def end(self):
+        if self.scene != None:
+            self.scene.remove(self.name)
+
     def update(self):
         for component in self.__components:
             if not self.__components[component].started:

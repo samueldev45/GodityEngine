@@ -4,11 +4,14 @@ import sys, time
 from godity.core.Window import Window
 
 class App():
-    def __init__(self, width, height, title, flags=0, fps=60):
+    def __init__(self, width, height, title, flags=0, fps=60, exit_key=pygame.K_ESCAPE):
         # initialize pygame
-        pygame.init()
-        pygame.mixer.init()
-        pygame.font.init()
+        if not pygame.get_init():
+            pygame.init()
+        if not pygame.mixer.get_init():
+            pygame.mixer.init()
+        if not pygame.font.get_init():
+            pygame.font.init()
 
         # variables
         self.__images = {}
@@ -19,11 +22,14 @@ class App():
         self.__game_loop = True
         self.__last_time = 0
         self.__delta_time = 0.0
+        self.__flags = flags
 
         self.gravity = 9.807
+        self.physics_color = (255,255,255)
+        self.exit_key = exit_key
 
         # create window
-        self.window = Window(width, height, title, flags)
+        self.window = Window(width, height, title, self.__flags)
 
     # Overwrite functions
     def start(self):
@@ -45,6 +51,9 @@ class App():
     def getClock(self):
         return self.__clock
 
+    def getFlags(self):
+        return self.__flags
+
     def getDeltaTime(self):
         return self.__delta_time
 
@@ -60,11 +69,16 @@ class App():
         else:
             print("Error: class <App> function (getImage) -> No image was found with the identifier "+name+".")
 
-    def loadImage(self, name, path):
+    def loadImage(self, name, path, convert_alpha=False):
         if not name in self.__images:
-            self.__images[name] = pygame.image.load(path)
+            if convert_alpha:   self.__images[name] = pygame.image.load(path).convert_alpha()
+            else:   self.__images[name] = pygame.image.load(path)
         else:
             print("Error: class <App> function (loadImage) -> The identifier "+name+" has already been used.")
+
+    def updateImage(self, name, path, convert_alpha):
+        if convert_alpha:   self.__images[name] = pygame.image.load(path).convert_alpha()
+        else:   self.__images[name] = pygame.image.load(path)
 
     def deleteImage(self, name):
         if name in self.__images:
@@ -108,10 +122,13 @@ class App():
     def setFPS(self, value):
         self.__fps = value
 
-    def __checkCloseWindow(self):
+    def __events(self):
         for event in self.getEvents():
             if event.type == pygame.QUIT:
                 self.close()
+            if event.type == pygame.KEYDOWN:
+                if event.key == self.exit_key:
+                    self.close()
 
     def run(self):
         self.start()
@@ -122,9 +139,10 @@ class App():
             self.__delta_time *= self.__fps
             self.__last_time = time.time()
             #---
-            self.__clock.tick(self.__fps)
-            self.__checkCloseWindow()
+            
+            self.__events()
             self.update()
             self.render()
+            self.__clock.tick(self.__fps)
         self.end()
         sys.exit(0)
