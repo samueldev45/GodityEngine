@@ -1,65 +1,69 @@
 from godity.engine import *
-
-# custom components
-from playerController import PlayerController
+from data.lib import *
 
 class Game(App):
-    def __init__(self, width, height, title, flags=0):
-        super().__init__(width, height, title, flags)
+	def __init__(self, width, height, title):
+		super().__init__(width, height, title)
 
-    def start(self):
-        self.gameScene = Scene("Game", True)
-        # load images
-        self.loadImage("cube", "cube.png")
-        #---
+	def start(self):
 
-        # entities
-        self.platform = Entity("Platform")
-        self.player = Entity("Player")
-        self.camera = Entity("Camera")
-        self.cube = Entity("Cube")
-        #---
+		# load images
+		self.loadImage("character", "data/images/character.png")
+		#---
 
-        # add components in entities
-        self.platform.add(Transform(Vector2(-96, 300)))
-        self.platform.add(BoxCollider(256, 16))
+		self.physics_color = (255,255,255)
 
-        self.player.add(Transform(Vector2(0, 0), Vector2(64, 64)))
-        self.player.add(BoxCollider(64, 64))
-        self.player.add(Rigidbody(self, 5, 1, False))
-        self.player.add(PlayerController(5))
-        self.player.add(SpriteRenderer(self, "cube"))
+		# scenes
+		self.game_scene = Scene(self, "Game", SCREEN_WIDTH, SCREEN_HEIGHT, True, False)
+		self.game_scene.background_color = (50,155,255)
+		#---
 
-        self.cube.add(Transform(Vector2(-64, 0)))
-        self.cube.add(BoxCollider(32, 32))
-        self.cube.add(Rigidbody(self, 2, 10, True))
+		# entities
+		self.player = Player(self, 50, 50, 10, 22)
+		self.camera = Entity("Camera")
+		self.world = Entity("World")
+		#---
 
-        self.camera.add(Transform(Vector2(0,0)))
-        self.camera.add(Camera(800, 600, -32, -32))
-        #---
+		# creating a camera
+		self.camera.add(Transform())
+		self.camera.add(Camera(SCREEN_WIDTH, SCREEN_HEIGHT, -4, -8))
+		#---
 
-        self.camera.parent(self.player)
+		# creating a tilemap
+		self.world.add(Transform())
+		self.world.add(Tilemap("data/maps/world.tmx", True))
+		#---
 
-        self.gameScene.add(self.platform)
-        self.gameScene.add(self.player)
-        self.gameScene.add(self.cube)
-        self.gameScene.add(self.camera)
+		# adding entities in game scene
+		
+		self.game_scene.add(self.world)
+		self.game_scene.add(self.player)
+		#---
 
-        self.gameScene.setCamera(self.camera)
-        self.setScene(self.gameScene)
+		# parent camera to player
+		self.camera.parent(self.player)
+		
+		# set camera in game scene
+		self.game_scene.setCamera(self.camera)
 
-        print("started app")
+		# set game scene in app
+		self.setScene(self.game_scene)
 
-    def update(self):
-        self.window.update()
-        self.getScene().update()
 
-    def render(self):
-        self.window.clearColor((0,0,0))
-        self.getScene().render(self.window.getDisplay())
+	def update(self):
+		self.window.update()
+		self.getScene().update()
 
-    def end(self):
-        print("end app")
+	def render(self):
+		#self.window.clearColor((0,0,0))
+		self.getScene().render()
 
-game = Game(800, 600, "Godity Engine", 0)
-game.run()
+	def end(self):
+		print("end app")
+
+if __name__ == "__main__":
+	monitor_size = getMonitorSize()
+	#game = Game(1024, 720, "Godity - Platform Game")
+	# FULLSCREEN
+	game = Game(monitor_size[0], monitor_size[1], "Godity - Platform Game")
+	game.run()
