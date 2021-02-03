@@ -37,7 +37,7 @@ class AnimationController(Component):
 					idle_anim.restart()
 					idle_anim.run()
 
-			else:
+			elif rigidbody.direction.x != 0:
 				if run_anim.getState() == "paused":
 					falling_anim.pause()
 					jump_anim.pause()

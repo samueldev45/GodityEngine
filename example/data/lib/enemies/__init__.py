@@ -1,0 +1,1 @@
+from data.lib.enemies.blob import *
