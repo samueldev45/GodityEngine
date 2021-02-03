@@ -17,12 +17,12 @@ class BoxCollider(Component):
         self.height = self.args["height"]
         self.ghost = self.args["ghost"]
         self.is_platform = self.args["is platform"]
-        self.collide_objects = []
+        self.collide_objects = {}
 
     def checkCollision(self, axis):
         scene = self.entity.getScene()
         collider_entities = scene.getEntitiesWithComponent("Box Collider")
-    
+
         for entity in collider_entities:
             if entity.name == self.entity.name: continue
             if not entity.has("Transform") and not entity.has("Box Collider"): continue
@@ -37,7 +37,7 @@ class BoxCollider(Component):
                 this_transform.position.y < transform.position.y + collider.height and
                 this_transform.position.y + self.height > transform.position.y  
             ):
-                self.collide_objects.append(entity)
+                self.collide_objects[entity.name] = {"entity" : entity, "collision types" : {"top": False, "bottom" : False, "left" : False, "right" : False}}
                 if collider.ghost:  continue
                 vec = this_transform.position.copy()
 
@@ -52,29 +52,32 @@ class BoxCollider(Component):
                 if axis == "y":
                     # vertical collision
                     if this_rigidbody.direction.y < 0: # top
-                        this_rigidbody.gravity = 0.1
-                        this_rigidbody.is_jumping = False
+                        self.collide_objects[entity.name]["collision types"]["top"] = True
+                        if this_rigidbody.use_gravity:
+                            this_rigidbody.gravity = 0.1
+                            this_rigidbody.is_jumping = False
                         vec.y = transform.position.y + collider.height
-                    elif this_rigidbody.direction.y > 0:# bottom
+                        
+                    elif this_rigidbody.direction.y > 0: # bottom
+                        self.collide_objects[entity.name]["collision types"]["bottom"] = True
+                        if this_rigidbody.use_gravity:
+                            this_rigidbody.gravity = 0
+                            this_rigidbody.air_time = 0.0
+                            this_rigidbody.on_ground = True
+                            this_rigidbody.platform_drop = False
                         vec.y = transform.position.y - self.height
-                        this_rigidbody.gravity = 0
-                        this_rigidbody.air_time = 0.0
-                        this_rigidbody.on_ground = True
-                        this_rigidbody.platform_drop = False
 
                     this_transform.setPositionY(vec.y)
 
                 if axis == "x":
                     # horizontal collision
                     if this_rigidbody.direction.x < 0: # left
+                        self.collide_objects[entity.name]["collision types"]["left"] = True
                         vec.x = transform.position.x + collider.width
                     elif this_rigidbody.direction.x > 0: # right
+                        self.collide_objects[entity.name]["collision types"]["right"] = True
                         vec.x = transform.position.x - self.width
 
                     this_transform.setPositionX(vec.x)
-            else:
-                if axis == "x":
-                    self.collide_objects.clear()
-
     def update(self):
         pass

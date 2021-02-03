@@ -34,6 +34,9 @@ class Transform(Component):
                 if not children.has("Transform"):   continue
                 children.get("Transform").rotate(angle)
 
+    def setRotation(self, angle):
+        self.rotation = angle
+
     def setPosition(self, vector2):
         self.position = vector2
         self.updateChildrenPosition()
@@ -46,9 +49,6 @@ class Transform(Component):
         self.position.y = value
         self.updateChildrenPosition()
 
-    def setRotation(self, angle):
-        self.rotation = angle
-
     def setScale(self, vector2):
         self.scale = vector2
 
@@ -58,15 +58,15 @@ class Transform(Component):
     def setScaleY(self, value):
         self.scale.y = value
 
-    def updateChildrenPosition(self, offset_x=0, offset_y=0):
+    def updateChildrenPosition(self):
         childrens = self.entity.getChildrens()
         if len(childrens) > 0:
             for children in childrens:
-                if not children.has("Transform"):   continue
+                if not children[0].has("Transform"): continue
                 pos = self.position.copy()
-                pos.x += offset_x
-                pos.y += offset_y
-                children.get("Transform").setPosition(pos)
+                pos.x += children[1]
+                pos.y += children[2]
+                children[0].get("Transform").setPosition(pos)
 
     def update(self):
         pass
