@@ -36,6 +36,7 @@ class Rigidbody(Component):
         vec = vec.multiply(self.velocity)
 
         self.air_time += 0.1
+        self.direction.y = -1
 
         if self.air_time > 2:
             self.is_jumping = False
@@ -58,9 +59,12 @@ class Rigidbody(Component):
         if self.air_time > 0:
             self.on_ground = False
 
+        box_collider.collide_objects.clear()
+
         transform.position.x += vec.x
         transform.updateChildrenPosition()
         box_collider.checkCollision("x")
+
         transform.position.y += vec.y
         transform.updateChildrenPosition()
         box_collider.checkCollision("y")

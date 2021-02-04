@@ -5,7 +5,6 @@ class Component():
         self.name = name
         self.args = args
         self.entity = None
-
         self.started = False
 
     def start(self):

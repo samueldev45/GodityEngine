@@ -18,4 +18,4 @@ class Window():
         self.__display.fill(color)
     
     def update(self):
-        pygame.display.update()
+        pygame.display.flip()

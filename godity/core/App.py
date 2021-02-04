@@ -2,6 +2,7 @@ import pygame
 import sys, time
 
 from godity.core.Window import Window
+from godity.core.Scene import Scene
 
 class App():
     def __init__(self, width, height, title, flags=0, fps=60, exit_key=pygame.K_ESCAPE):
@@ -12,6 +13,8 @@ class App():
             pygame.mixer.init()
         if not pygame.font.get_init():
             pygame.font.init()
+        if not pygame.joystick.get_init():
+            pygame.joystick.init()
 
         # variables
         self.__images = {}
@@ -58,25 +61,31 @@ class App():
         return self.__delta_time
 
     def getScene(self):
-        return self.__scene
+        if self.__scene != None:
+            return self.__scene
+        else:
+            print("Error: class <App> function (getScene) -> No scene have been defined for the App.")
 
     def setScene(self, scene):
-        self.__scene = scene
+        if type(scene) is Scene:
+            self.__scene = scene
+        else:
+            print("Error: class <App> function (setScene) -> A valid godity.core.Scene was not passed for the scene parameter.")
 
     def getImage(self, name):
         if name in self.__images:
             return self.__images[name]
         else:
-            print("Error: class <App> function (getImage) -> No image was found with the identifier "+name+".")
+            print("Error: class <App> function (getImage) -> No image was found with the identifier {}.".format(name))
 
     def loadImage(self, name, path, convert_alpha=False):
         if not name in self.__images:
             if convert_alpha:   self.__images[name] = pygame.image.load(path).convert_alpha()
             else:   self.__images[name] = pygame.image.load(path)
         else:
-            print("Error: class <App> function (loadImage) -> The identifier "+name+" has already been used.")
+            print("Error: class <App> function (loadImage) -> The identifier {} has already been used.".format(name))
 
-    def updateImage(self, name, path, convert_alpha):
+    def updateImage(self, name, path, convert_alpha=False):
         if convert_alpha:   self.__images[name] = pygame.image.load(path).convert_alpha()
         else:   self.__images[name] = pygame.image.load(path)
 
@@ -84,37 +93,37 @@ class App():
         if name in self.__images:
             del self.__images[name]
         else:
-            print("Error: class <App> function (deleteImage) -> No image was found with the identifier "+name+".")
+            print("Error: class <App> function (deleteImage) -> No image was found with the identifier {}.".format(name))
 
     def getAudio(self, name):
         if name in self.__audios:
             return self.__audios[name]
         else:
-            print("Error: class <App> function (getAudio) -> No audio was found with the identifier "+name+".")
+            print("Error: class <App> function (getAudio) -> No audio was found with the identifier {}.".format(name))
 
     def deleteAudio(self, name):
         if name in self.__audios:
             del self.__audios[name]
         else:
-            print("Error: class <App> function (deleteAudio) -> No audio was found with the identifier "+name+".")
+            print("Error: class <App> function (deleteAudio) -> No audio was found with the identifier {}.".format(name))
 
     def playAudio(self, name):
         if name in self.__audios:
             self.__audios[name].play()
         else:
-            print("Error: class <App> function (playAudio) -> No audio was found with the identifier "+name+".")
+            print("Error: class <App> function (playAudio) -> No audio was found with the identifier {}.".format(name))
 
     def stopAudio(self, name):
         if name in self.__audios:
             self.__audios[name].stop()
         else:
-            print("Error: class <App> function (stopAudio) -> No audio was found with the identifier "+name+".")
+            print("Error: class <App> function (stopAudio) -> No audio was found with the identifier {}.".format(name))
 
     def loadAudio(self, name, path):
         if not name in self.__audios:
             self.__audios[name] = pygame.mixer.Sound(path)
         else:
-            print("Error: class <App> function (loadAudio) -> The identifier "+name+" has already been used.")
+            print("Error: class <App> function (loadAudio) -> The identifier {} has already been used.".format(name))
 
     def close(self):
         self.__game_loop = False
@@ -129,16 +138,15 @@ class App():
             if event.type == pygame.KEYDOWN:
                 if event.key == self.exit_key:
                     self.close()
+            break
 
     def run(self):
         self.start()
         self.__last_time = time.time()
         while self.__game_loop:
-            # delta time
             self.__delta_time = time.time() - self.__last_time
             self.__delta_time *= self.__fps
             self.__last_time = time.time()
-            #---
             
             self.__events()
             self.update()

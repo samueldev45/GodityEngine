@@ -1,6 +1,6 @@
 from godity.core.Component import Component
 from godity.math.Vector2 import Vector2
-import pygame
+from godity.inputs import *
 
 class PlatformerController(Component):
 	def __init__(self, app, velocity, jump_force):
@@ -18,9 +18,7 @@ class PlatformerController(Component):
 		self.space_tap = False
 
 	def releaseInputs(self):
-		keyboard = pygame.key.get_pressed()
-
-		if not keyboard[pygame.K_SPACE] and self.space_tap == True:
+		if not keyPressed("space") and self.space_tap == True:
 			self.space_tap = False
 
 	def getInputs(self):
@@ -29,20 +27,22 @@ class PlatformerController(Component):
 
 		# get components
 		box_collider = self.entity.get("Box Collider")
+
 		rigidbody = self.entity.get("Rigidbody")
 
 		# set speed
 		rigidbody.velocity = self.velocity * self.__app.getDeltaTime()
 
 		# inputs
-		if keyboard[pygame.K_LEFT]:
+		if keyPressed("left"):
 			rigidbody.direction.x = -1
 			sprite_renderer.setFlip(True, False)
-		elif keyboard[pygame.K_RIGHT]:
+
+		elif keyPressed("right"):
 			rigidbody.direction.x = 1
 			sprite_renderer.setFlip(False, False)
 
-		if keyboard[pygame.K_SPACE] and self.space_tap == False and rigidbody.air_time < 0.2:
+		if keyPressed("space") and self.space_tap == False and rigidbody.air_time < 0.2:
 			rigidbody.jump(self.jump_force)
 			self.space_tap = True
 
